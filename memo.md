@@ -127,6 +127,7 @@ ReactDOM.render(
 
 # JSX Attributes & Styling React Elements
 https://www.w3schools.com/tags/ref_standardattributes.asp 用来找html的attributes
+https://picsum.photos/ 找图片的网站
 
 ```Javascript
 import React from "react";
@@ -172,4 +173,146 @@ ul {
   width: 100px;
   height: 100px;
 }
+```
+# Inline Styling for React Elements
+https://www.w3schools.com/cssref/ CSS Property List
+
+```Javascript
+import React from "react";
+import ReactDOM from "react-dom";
+
+// 不能下面这么写
+// ReactDOM.render(
+//   <h1 style="color : red">Hello World!</h1>,
+//   document.getElementById("root")
+// );
+
+// js object里面，用','分割，而不是css中的';'
+// 而且需要用的“”
+const customStyle = {
+  color: "red",
+  fontSize: "20px",
+  border: "1px solid black"
+};
+
+// 甚至可以实时改object的属性
+customStyle.color = "blue";
+
+// 需要一个js object
+ReactDOM.render(
+  <h1 style={customStyle}>Hello World!</h1>,
+  document.getElementById("root")
+);
+```
+
+# Practise
+
+```Javascript
+//Create a React app from scratch.
+//Show a single h1 that says "Good morning" if between midnight and 12PM.
+//or "Good Afternoon" if between 12PM and 6PM.
+//or "Good evening" if between 6PM and midnight.
+//Apply the "heading" style in the styles.css
+//Dynamically change the color of the h1 using inline css styles.
+//Morning = red, Afternoon = green, Night = blue.
+
+import React from "react";
+import ReactDOM from "react-dom";
+
+const date = new Date();
+
+const colorStyle = {
+  color: "red"
+};
+
+let greeting;
+if (0 < date.getHours() && date.getHours() < 12) {
+  greeting = "Morning";
+  colorStyle.color = "red";
+} else if (date.getHours() < 18) {
+  greeting = "Afternoon";
+  colorStyle.color = "green";
+} else {
+  greeting = "Night";
+  colorStyle.color = "blue";
+}
+
+ReactDOM.render(
+  <h1 className="heading" style={colorStyle}>
+    Good {greeting}
+  </h1>,
+  document.getElementById("root")
+);
+
+```
+
+# React Components
+
+https://github.com/airbnb/javascript/tree/master/react Airbnb Style Guide for React
+
+index.js
+```Javascript
+import React from "react";
+import ReactDOM from "react-dom";
+// import Heading from "./Heading.jsx";
+// import List from "./List.jsx";
+import App from "./App.jsx"; // 注意是如何import的
+
+// 注意方式：如何用js function来放进element里
+// 注意位置：把这个function直接新建到了Heading.jsx
+// function Heading() {
+//   return <h1>My Favourite Foods</h1>;
+// }
+
+// 注意：如果之间没有child，可以直接写作<Heading />
+
+// 最后直接都放到了App.jsx里面
+ReactDOM.render(<App />, document.getElementById("root"));
+```
+
+App.jsx
+```Javascript
+import React from "react";
+import List from "./List.jsx";
+import Heading from "./Heading.jsx";
+
+// 注意是如何把两个包在一起的
+function App() {
+  return (
+    <div>
+      <Heading />
+      <List />
+    </div>
+  );
+}
+
+export default App;
+```
+
+Heading.jsx
+```Javascript
+import React from "react"; // 需要import react
+
+function Heading() {
+  return <h1>My Favourite Foods</h1>;
+}
+
+export default Heading; // 注意是如何export的
+```
+
+List.jsx
+```Javascript
+import React from "react";
+
+function List() {
+  return (
+    <ul>
+      <li>Bacon</li>
+      <li>Jamon</li>
+      <li>Noodles</li>
+    </ul>
+  );
+}
+
+export default List; // 注意方法： export default
 ```
