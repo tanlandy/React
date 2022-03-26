@@ -64,8 +64,34 @@ ReactDOM.render(
 # JS Expressions in JSX & ES6 Template Literals
 
 ```Javascript
+import React from "react";
+import ReactDOM from "react-dom";
 
+// 想把一个var加进来，不能直接把world换成name
+const fName = "Kunlin";
+const lName = "Tan";
+const num = 8;
+
+ReactDOM.render(<h1>Hello World!</h1>, document.getElementById("root"));
+
+// inject js to html的方法
+ReactDOM.render(
+  <div>
+    <h1>Hello {fName + " " + lName}!</h1>
+    <h1>Hello {fName} {lName}!</h1>
+    <p>My lucky number is {num}</p> 
+  </div>,
+  document.getElementById("root")
+);
+
+// {}之间可以写各种js expression, 比如{3 + 4}, {Math.max(2, 5)};
+// {}不可以有if, else之类的statement
 ```
 
-Statement vs. Expressions
+## Statement vs. Expressions
 https://youtu.be/WVyCrI1cHi8 
+expression: a way to become (result) a value
+const x = 5;
+const y = getAnswer();
+statement:
+if, while, for: only perform actions, don't become values
