@@ -95,3 +95,81 @@ const x = 5;
 const y = getAnswer();
 statement:
 if, while, for: only perform actions, don't become values
+
+# Practice
+
+```Javascript
+//Create a react app from scratch.
+//It should display 2 paragraph HTML elements.
+//The paragraphs should say:
+//Created by YOURNAME.
+//Copyright CURRENTYEAR.
+//E.g.
+//Created by Angela Yu.
+//Copyright 2019.
+
+import React from "react";
+import ReactDOM from "react-dom";
+
+const name = "Kunlin Tan"; // 用const 而不是var
+const curDate = new Date();
+const curYear = curDate.getFullYear(); // google如何用js拿到当前日期
+
+ReactDOM.render(
+  <div>
+    <p>Created by {name}</p>
+    <p>Copyright {curYear}</p>
+  </div>,
+  document.getElementById("root")
+);
+
+```
+
+# JSX Attributes & Styling React Elements
+https://www.w3schools.com/tags/ref_standardattributes.asp 用来找html的attributes
+
+```Javascript
+import React from "react";
+import ReactDOM from "react-dom";
+
+const img = "https://picsum.photos/seed/picsum/200";
+const img2 = "https://picsum.photos/200";
+
+// 建议总是在className来修改东西
+// 注意如何添加img，并且修改img的大小
+// 注意food-img的className命名方式
+// alt用来给盲人一个text
+ReactDOM.render(
+  <div>
+    <h1 className="heading" contentEditable="true" spellCheck="false">
+      My Favourite Foods
+    </h1>
+    <ul>
+      <li>Bacon</li>
+      <li>Jamon</li>
+      <li>Noodles</li>
+    </ul>
+    <div>
+      <img className="food-img" alt="img" src={img + "?grayscale"}></img>
+      <img className="food-img" alt="img" src={img2 + "?blur"}></img>
+    </div>
+  </div>,
+  document.getElementById("root")
+);
+```
+对应的css文件：
+```css
+.heading {
+  color: red;
+}
+
+ul {
+  color: blue;
+}
+
+/* all lowercase, use '-' to connect */
+.food-img {
+  width: 100px;
+  height: 100px;
+}
+```
