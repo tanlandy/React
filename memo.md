@@ -316,3 +316,161 @@ function List() {
 
 export default List; // 注意方法： export default
 ```
+
+# Practice
+前一个模块更好的写法：index.js里面只有一个App，App.js里面只有一个Heading，Heading里面具体的实现
+
+index.js
+```Javascript
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App.jsx";
+
+ReactDOM.render(<App />, document.getElementById("root"));
+```
+
+App.jsx
+```Javascript
+import React from "react";
+import Heading from "./Heading.jsx";
+
+function App() {
+  return <Heading />;
+}
+
+export default App;
+```
+
+Heading.jsx
+```Javascript
+import React from "react";
+
+function Heading() {
+  const date = new Date();
+  const currentTime = date.getHours();
+
+  let greeting;
+
+  const customStyle = {
+    color: ""
+  };
+
+  if (currentTime < 12) {
+    greeting = "Good Morning";
+    customStyle.color = "red";
+  } else if (currentTime < 18) {
+    greeting = "Good Afternoon";
+    customStyle.color = "green";
+  } else {
+    greeting = "Good Night";
+    customStyle.color = "blue";
+  }
+
+  return (
+    <h1 className="heading" style={customStyle}>
+      {greeting}
+    </h1>
+  );
+}
+
+export default Heading;
+```
+
+# Javascript ES6 - Import, Export, and Modules
+
+Node.js require() vs. ES6
+https://stackoverflow.com/questions/31354559/using-node-js-require-vs-es6-import-export 
+
+```Javascript
+import React from "react";
+import ReactDOM from "react-dom";
+import PIE, { doublePi, triplePi } from "./math.js"; // PIE不用一定写成pi，因为默认的返回值就是pi
+// 但是doublePi, triplePi必须是相同的名字
+ReactDOM.render(
+  <ul>
+    <li>{PIE}</li>
+    <li>{doublePi()}</li>
+    <li>{triplePi()}</li>
+  </ul>,
+  document.getElementById("root")
+);
+
+
+
+// 另一种方式
+
+import React from "react";
+import ReactDOM from "react-dom";
+import * as pi from "./math.js"; // 直接把全部都到进来
+ReactDOM.render(
+  <ul>
+    <li>{pi.default}</li>
+    <li>{pi.doublePi()}</li>
+    <li>{pi.triplePi()}</li>
+  </ul>,
+  document.getElementById("root")
+);
+```
+
+math.js
+```Javascript
+const pi = 3.141596;
+
+function doublePi() {
+  return pi * 2;
+}
+
+function triplePi() {
+  return pi * 3;
+}
+
+export default pi; // 注意需要有一个default export
+
+export { doublePi, triplePi };
+
+```
+
+# Local Environment Setup for React Development
+
+node.js https://nodejs.org/en/ 
+vscode https://code.visualstudio.com/ 
+babel syntax highlighter https://babeljs.io/docs/en/editors 
+vscode icon extension
+create a new react app https://reactjs.org/docs/create-a-new-react-app.html 
+
+
+```bash
+npx create-react-app my-app # 全局变量，不用在意运行的path
+cd my-app
+npm start
+```
+把无关的文件都删除掉
+修改一下index.html和index.js
+之后就和sandbox一样了
+
+index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>React App</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- 加了这句话 -->
+    <script src="./src/index.js" type="text/jsx"></script> 
+  </body>
+</html>
+```
+
+index.js
+```Javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(
+  <h1>Hello world</h1>,
+  document.getElementById("root")
+);
+```
+
