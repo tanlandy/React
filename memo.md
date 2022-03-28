@@ -478,3 +478,278 @@ ReactDOM.render(
 
 下载下来之后，先在对应文件夹的路径npm instal，然后npm start
 完成情况在Keeper-app文件夹
+
+# React Props
+
+Reduce 重复的内容
+props: properties
+
+index.js
+```Javascript
+import React from "react";
+import ReactDOM from "react-dom";
+
+function Card(props) {
+  return (
+    <div>
+      <h2>{props.name}</h2>
+      <img src={props.img} alt="avatar_img" />
+      <p>{props.tel}</p>
+      <p>{props.email}</p>
+    </div>
+  );
+}
+
+ReactDOM.render(
+  <div>
+    <h1>My Contacts</h1>
+    <Card
+      name="Beyonce"
+      img="https://blackhistorywall.files.wordpress.com/2010/02/picture-device-independent-bitmap-119.jpg"
+      tel="+123 456 789"
+      email="b@beyonce.com"
+    />
+    <Card name="Kunlin" email="dafd@odaf.com" tel="3242341342" />
+    <input id="fName" placeholder="Enter your first name." />
+  </div>,
+  document.getElementById("root")
+);
+
+```
+
+# Practice
+
+index.js
+```Javascript
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./components/App";
+
+ReactDOM.render(<App />, document.getElementById("root"));
+
+//1. Apply CSS styles to App.jsx component
+//to match the appearance on the completed app:
+//https://c6fkx.csb.app/
+//2. Extract the contact card as a reusable Card component.
+//3. Use props to render the default Beyonce contact card
+//so the Card component can be reused for other contacts.
+//4. Import the contacts.js file to create card components.
+```
+
+App.jsx
+注意是如何把contacts数据导入进来的
+```Javascript
+import React from "react";
+import Card from "./Card.jsx";
+import contacts from "../contacts";
+// 在应用的时候总是需要{}把js object
+function App() {
+  return (
+    <div>
+      <h1 className="heading">My Contacts</h1>
+      <Card
+        name={contacts[0].name}
+        img={contacts[0].imgURL}
+        tel={contacts[0].phone}
+        email={contacts[0].email}
+      />
+      <Card
+        name={contacts[1].name}
+        img={contacts[1].imgURL}
+        tel={contacts[1].phone}
+        email={contacts[1].email}
+      />
+      <Card
+        name={contacts[2].name}
+        img={contacts[2].imgURL}
+        tel={contacts[2].phone}
+        email={contacts[2].email}
+      />
+    </div>
+  );
+}
+
+export default App;
+```
+
+Card.jsx
+```Javascript
+import React from "react";
+
+function Card(props) {
+  return (
+    <div className="card">
+      <div className="top">
+        <h2 className="name">{props.name}</h2>
+        <img className="circle-img" src={props.img} alt="avatar_img" />
+      </div>
+      <div className="bottom">
+        <p className="info">{props.tel}</p>
+        <p className="info">{props.email}</p>
+      </div>
+    </div>
+  );
+}
+
+export default Card;
+```
+
+contact.js
+```Javascript
+const contacts = [
+  {
+    name: "Beyonce",
+    imgURL:
+      "https://blackhistorywall.files.wordpress.com/2010/02/picture-device-independent-bitmap-119.jpg",
+    phone: "+123 456 789",
+    email: "b@beyonce.com"
+  },
+  {
+    name: "Jack Bauer",
+    imgURL:
+      "https://pbs.twimg.com/profile_images/625247595825246208/X3XLea04_400x400.jpg",
+    phone: "+987 654 321",
+    email: "jack@nowhere.com"
+  },
+  {
+    name: "Chuck Norris",
+    imgURL:
+      "https://i.pinimg.com/originals/e3/94/47/e39447de921955826b1e498ccf9a39af.png",
+    phone: "+918 372 574",
+    email: "gmail@chucknorris.com"
+  }
+];
+
+export default contacts;
+```
+
+# React DevTools
+React Developer Tools by Meta on Chrome Store https://github.com/facebook/react/tree/main/packages/react-devtools#the-react-tab-doesnt-show-up 
+
+看如何把Avatar和Info给提取出来，然后在Card.js复用
+Avatar.jsx
+```Javascript
+import React from "react";
+
+function Avatar(props) {
+  return <img className="circle-img" src={props.img} alt="avatar_img" />;
+}
+export default Avatar;
+```
+
+
+Info.jsx
+```Javascript
+import React from "react";
+
+function Info(props) {
+  return <p className="info">{props.info}</p>;
+}
+
+export default Info;
+```
+
+Card.jsx
+```Javascript
+import React from "react";
+import Avatar from "./Avatar.jsx";
+import Info from "./Info.jsx";
+
+function Card(props) {
+  return (
+    <div className="card">
+      <div className="top">
+        <h2 className="name">{props.name}</h2>
+        <Avatar img={props.img} />
+      </div>
+      <div className="bottom">
+        <Info info={props.tel} />
+        <Info info={props.email} />
+      </div>
+    </div>
+  );
+}
+
+export default Card;
+```
+
+# Mapping Data to Components
+如何用loop把重复数据给清理掉，看App.js的变化
+
+App.js
+用了一个contacts.map()来把信息传进去
+createCard函数返回的就是<key, value>pair
+一定要有一个key
+```Javascript
+import React from "react";
+import Card from "./Card";
+import contacts from "../contacts";
+
+function createCard(contact) {
+  return (
+    <Card
+      key={contact.id}
+      id={contact.id}
+      name={contact.name}
+      img={contact.imgURL}
+      tel={contact.phone}
+      email={contact.email}
+    />
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <h1 className="heading">My Contacts</h1>
+      {contacts.map(createCard)}
+      {/* <Card
+        name={contacts[0].name}
+        img={contacts[0].imgURL}
+        tel={contacts[0].phone}
+        email={contacts[0].email}
+      />
+      <Card
+        name={contacts[1].name}
+        img={contacts[1].imgURL}
+        tel={contacts[1].phone}
+        email={contacts[1].email}
+      />
+      <Card
+        name={contacts[2].name}
+        img={contacts[2].imgURL}
+        tel={contacts[2].phone}
+        email={contacts[2].email}
+      /> */}
+    </div>
+  );
+}
+
+export default App;
+```
+
+Card.jsx
+不能直接引用key，需要用一个新的id
+```Javascript
+import React from "react";
+import Avatar from "./Avatar.jsx";
+import Info from "./Info.jsx";
+
+function Card(props) {
+  return (
+    <div className="card">
+      <div className="top">
+        <h1>{props.id}</h1>
+        <h2 className="name">{props.name}</h2>
+        <Avatar img={props.img} />
+      </div>
+      <div className="bottom">
+        <Info info={props.tel} />
+        <Info info={props.email} />
+      </div>
+    </div>
+  );
+}
+
+export default Card;
+```
