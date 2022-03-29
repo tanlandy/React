@@ -753,3 +753,295 @@ function Card(props) {
 
 export default Card;
 ```
+
+# Mapping Data to Components Practice
+
+https://www.emojimeanings.net/list-smileys-people-whatsapp 
+
+App.jsx
+```Javascript
+// 注意如何用map函数
+import React from "react";
+import Entry from "./Entry";  // 看在哪里用的Entry
+import emojipedia from "../emojipedia"; // 看在哪里用的emojipedia
+
+function createCard(oneemoji) { // createCard里面用Entry
+  return (
+    <Entry
+      key={oneemoji.id}
+      emoji={oneemoji.emoji}
+      name={oneemoji.name}
+      meaning={oneemoji.meaning}
+    />
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <h1>
+        <span>emojipedia</span>
+      </h1>
+
+      <dl className="dictionary">{emojipedia.map(createCard)}</dl>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Entry.jsx
+```Javascript
+import React from "react";
+
+function Entry(props) { // 在App.jsx看Entry函数是如何取得数据的
+  return (
+    <div className="term">
+      <dt>
+        <span className="emoji" role="img" aria-label="Tense Biceps">
+          {props.emoji}
+        </span>
+        <span>{props.name}</span>
+      </dt>
+      <dd>{props.meaning}</dd>
+    </div>
+  );
+}
+
+export default Entry;
+
+```
+
+emojipedia.jsx
+```Javascript
+const emojipedia = [
+  {
+    id: 1,
+    emoji: "💪",
+    name: "Tense Biceps",
+    meaning:
+      "“You can do that!” or “I feel strong!” Arm with tense biceps. Also used in connection with doing sports, e.g. at the gym."
+  },
+  {
+    id: 2,
+    emoji: "🙏",
+    name: "Person With Folded Hands",
+    meaning:
+      "Two hands pressed together. Is currently very introverted, saying a prayer, or hoping for enlightenment. Is also used as a “high five” or to say thank you."
+  },
+  {
+    id: 3,
+    emoji: "🤣",
+    name: "Rolling On The Floor, Laughing",
+    meaning:
+      "This is funny! A smiley face, rolling on the floor, laughing. The face is laughing boundlessly. The emoji version of “rofl“. Stands for „rolling on the floor, laughing“."
+  }
+];
+
+export default emojipedia; // 注意是如何导出的
+```
+
+# Javascript ES6 Map/Filter/Reduce
+
+[Array.prototype.filter()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+[Array.prototype.map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+[Array.prototype.reduce()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce)
+[String.prototype.substring()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring)
+
+
+```Javascript
+var numbers = [3, 56, 2, 48, 5];
+
+//Map -Create a new array by doing something with each item in an array.
+function double(x) {
+  return x * 2;
+}
+const newNumbers = numbers.map(double); // map要传入一个函数
+// console.log(newNumbers);
+// Map的第二种写法，更加简短精悍
+const newNumbersMap2 = numbers.map(function (x) {
+  return x * 2;
+});
+
+// console.log(newNumbersMap2);
+//第二个方法
+// var newNumbers2 = [];
+// function double2(x) {
+//   newNumbers2.push(x * 2);
+// }
+// numbers.forEach(double2);
+// console.log(newNumbers2);
+
+//Filter - Create a new array by keeping the items that return true.
+
+const newNumbersFilter = numbers.filter(function (num) {
+  return num > 10;
+});
+// console.log(newNumbersFilter);
+
+// 第二种方法
+var newNumbersFilter2 = [];
+numbers.forEach(function (num) {
+  if (num < 10) {
+    newNumbersFilter2.push(num);
+  }
+});
+// console.log(newNumbersFilter2);
+
+//Reduce - Accumulate a value by doing something to each item in an array.
+
+var newNumberRed = numbers.reduce(function (accumulator, curNum) {
+  return accumulator + curNum;
+});
+// console.log(newNumberRed);
+
+var newNumberRed2 = 0;
+numbers.forEach(function (num) {
+  newNumberRed2 += num;
+});
+// console.log(newNumberRed2);
+
+//Find - find the first item that matches from an array.
+const numFind = numbers.find(function (num) {
+  return num > 10;
+});
+// console.log(numFind);
+
+//FindIndex - find the index of the first item that matches.
+const numFindIndex = numbers.findIndex(function (num) {
+  return num > 10;
+});
+// console.log(numFindIndex);
+
+```
+# Practice
+``` Javascript
+
+import emojipedia from "./emojipedia";
+
+// console.log(emojipedia[0].meaning);
+const meanings = emojipedia.map(function (emoji) {
+  return emoji.meaning.substring(0, 100);
+});
+console.log(meanings);
+```
+
+# Javascript ES6 Arrow functions
+看如何使用"=>"的
+
+学习"=>"
+```Javascript
+
+// basic way to write function
+function square(x) {
+  return x * x;
+}
+
+var numbers = [3, 56, 2, 48, 5];
+
+// 简化方法一
+const newNumber = numbers.map(function (x) {
+  return x * x;
+});
+
+// 简化方法二
+const newNumber = numbers.map((x) => {
+  return x * x;
+});
+
+// 简化方法三
+const newNumber = numbers.map(x => {
+  return x * x;
+});
+
+// 终极简化方法四
+const newNumber = numbers.map( x => x * x);
+console.log(newNumber);
+
+//Map -Create a new array by doing something with each item in an array.
+const newNumbers = numbers.map(function (x) {
+  return x * 2;
+});
+
+// 简化
+const newNumber = numbers.map( x => x * 2);
+
+////Filter - Create a new array by keeping the items that return true.
+const newNumber = numbers.filter(function(num) {
+  return num < 10;
+});
+
+// 简化
+const newNumber = numbers.filter(x => x < 10);
+
+// Reduce - Accumulate a value by doing something to each item in an array.
+var newNumber = numbers.reduce(function (accumulator, currentNumber) {
+    return accumulator + currentNumber;
+})
+
+// 简化
+const newNumber = numbers.reduce((x, y) => x + y);
+
+//Find - find the first item that matches from an array.
+const newNumber = numbers.find(function (num) {
+  return num > 10;
+})
+
+// 简化
+const newNumber = numbers.find( x => x > 10)
+
+//FindIndex - find the index of the first item that matches.
+const newNumber = numbers.findIndex(function (num) {
+  return num > 10;
+})
+
+// 简化
+const newNumber = numbers.findIndex(x => x > 10);
+
+console.log(newNumber);
+
+```
+
+看如何简化App.js
+```Javascript
+import React from "react";
+import Entry from "./Entry";
+import emojipedia from "../emojipedia";
+
+// function createEntry(emojiTerm) {
+//   return (
+//     <Entry
+//       key={emojiTerm.id}
+//       emoji={emojiTerm.emoji}
+//       name={emojiTerm.name}
+//       description={emojiTerm.meaning}
+//     />
+//   );
+// }
+
+function App() {
+  return (
+    <div>
+      <h1>
+        <span>emojipedia</span>
+      </h1>
+      {/* <dl className="dictionary">{emojipedia.map(createEntry)}</dl> */}
+      <dl className="dictionary">
+        {emojipedia.map((emojiTerm) => (
+          <Entry
+            key={emojiTerm.id}
+            emoji={emojiTerm.emoji}
+            name={emojiTerm.name}
+            description={emojiTerm.meaning}
+          />
+        ))}
+      </dl>
+    </div>
+  );
+}
+
+export default App;
+```
+
+# Keeper App Project - Part 2
