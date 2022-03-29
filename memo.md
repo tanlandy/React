@@ -1045,3 +1045,78 @@ export default App;
 ```
 
 # Keeper App Project - Part 2
+App.js
+看如何使用notes.map()
+以及函数里面的函数
+notes就是从外界传入的所有信息
+```Javascript
+import React from "react";
+import Header from "./Header";
+import Footer from "./Footer";
+import Note from "./Note";
+import notes from "../notes";
+
+function App() {
+  return (
+    <div>
+      <Header />
+      {/* <Note title="hi" content = "hello"/> */}
+      {notes.map((note) => (
+        <Note key={note.key} title={note.title} content={note.content} />
+      ))}
+      <Footer />
+    </div>
+  );
+}
+
+export default App;
+```
+
+note.jsx
+```Javascript
+const notes = [
+  {
+    key: 1,
+    title: "Delegation",
+    content:
+      "Q. How many programmers does it take to change a light bulb? A. None – It’s a hardware problem"
+  },
+  {
+    key: 2,
+    title: "Loops",
+    content:
+      "How to keep a programmer in the shower forever. Show him the shampoo bottle instructions: Lather. Rinse. Repeat."
+  },
+  {
+    key: 3,
+    title: "Arrays",
+    content:
+      "Q. Why did the programmer quit his job? A. Because he didn't get arrays."
+  },
+  {
+    key: 4,
+    title: "Hardware vs. Software",
+    content:
+      "What's the difference between hardware and software? You can hit your hardware with a hammer, but you can only curse at your software."
+  }
+];
+
+export default notes;
+```
+
+Note.jsx
+这个是<Note />对应的内容，重点是如何与App.js一一对应
+```Javascript
+import React from "react";
+
+function Note(props) {
+  return (
+    <div className="note">
+      <h1>{props.title}</h1>
+      <p>{props.content}</p>
+    </div>
+  );
+}
+
+export default Note;
+```
